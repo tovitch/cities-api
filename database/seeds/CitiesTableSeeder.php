@@ -33,6 +33,7 @@ class CitiesTableSeeder extends Seeder
 		$n_dept = Department::where('code', $codeDepartment)->first();
 
 		City::create([
+			'type'          => 'city',
 			'name'          => $name,
 			'cp'            => $cp,
 			'lat'           => $lat,
@@ -45,11 +46,13 @@ class CitiesTableSeeder extends Seeder
 	{
 		foreach (json_decode($cities->getBody()) as $city) {
 			$n_dept = Department::firstOrCreate([
+				'type' => 'department',
 				'name' => $city->departement->nom,
 				'code' => $city->departement->code,
 			]);
 
 			City::create([
+				'type'          => 'city',
 				'name'          => $city->nom,
 				'cp'            => implode(':', $city->codesPostaux),
 				'lat'           => $city->centre->coordinates[1],
