@@ -56,7 +56,7 @@
             }
 
             timeout = setTimeout(function () {
-                $.get('/api/city/' + $this.val() + '?formatted=true', function (data) {
+                $.get('api/city/' + $this.val() + '?formatted=true', function (data) {
                     $('#city').catcomplete('option', 'source', data).catcomplete('search')
                 });
             }, 200);
