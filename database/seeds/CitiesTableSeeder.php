@@ -35,6 +35,7 @@ class CitiesTableSeeder extends Seeder
 		City::create([
 			'type'          => 'city',
 			'name'          => $name,
+			'slug'          => str_slug($name),
 			'cp'            => $cp,
 			'lat'           => $lat,
 			'lng'           => $lng,
@@ -47,13 +48,15 @@ class CitiesTableSeeder extends Seeder
 		foreach (json_decode($cities->getBody()) as $city) {
 			$n_dept = Department::firstOrCreate([
 				'type' => 'department',
-				'name' => $city->departement->nom,
+				'name' => str_replace('-', ' ', $city->departement->nom),
+				'slug' => str_slug($city->departement->nom),
 				'code' => $city->departement->code,
 			]);
 
 			City::create([
 				'type'          => 'city',
 				'name'          => $city->nom,
+				'slug'          => str_slug($city->nom),
 				'cp'            => implode(':', $city->codesPostaux),
 				'lat'           => $city->centre->coordinates[1],
 				'lng'           => $city->centre->coordinates[0],

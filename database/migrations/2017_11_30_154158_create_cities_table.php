@@ -17,6 +17,7 @@ class CreateCitiesTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->string('name');
+            $table->string('slug');
             $table->string('cp');
             $table->float('lat', 20, 15);
             $table->float('lng', 20, 15);
