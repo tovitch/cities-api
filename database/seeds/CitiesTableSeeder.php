@@ -53,15 +53,36 @@ class CitiesTableSeeder extends Seeder
 				'code' => $city->departement->code,
 			]);
 
-			City::create([
-				'type'          => 'city',
-				'name'          => $city->nom,
-				'slug'          => str_slug($city->nom),
-				'cp'            => implode(':', $city->codesPostaux),
-				'lat'           => $city->centre->coordinates[1],
-				'lng'           => $city->centre->coordinates[0],
-				'department_id' => $n_dept->id,
-			]);
+			$this->createCity(
+				$city->nom,
+				$city->codesPostaux,
+				$city->centre->coordinates[1],
+				$city->centre->coordinates[0],
+				$n_dept->code);
+
+			if (strpos($city->nom, 'Saint') !== false) {
+				$this->createCity(
+					str_replace('Saint', 'St', $city->nom),
+					$city->codesPostaux,
+					$city->centre->coordinates[1],
+					$city->centre->coordinates[0],
+					$n_dept->code);
+			}
 		}
+	}
+
+	protected function createCity($name, $cp, $lat, $lng, $codeDepartment)
+	{
+		$dept = Department::where('code', $codeDepartment)->first();
+
+		City::create([
+			'type'          => 'city',
+			'name'          => $name,
+			'slug'          => str_slug($name),
+			'cp'            => implode(':', $cp),
+			'lat'           => $lat,
+			'lng'           => $lng,
+			'department_id' => $dept->id,
+		]);
 	}
 }

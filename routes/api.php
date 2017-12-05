@@ -16,3 +16,4 @@
 //});
 
 Route::get('/city/{city}', 'ApiController@city');
+Route::get('/count', 'ApiController@count');

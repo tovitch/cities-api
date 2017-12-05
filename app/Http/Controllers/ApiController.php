@@ -7,6 +7,10 @@ use App\Department;
 
 class ApiController extends Controller
 {
+	public function count()
+	{
+		return count(City::all());
+	}
 	protected function getCities($name)
 	{
 		return City::with('department')

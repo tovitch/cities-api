@@ -71,32 +71,17 @@
 
         $cityInput.catcomplete({
             minLength: 2,
-            source: []
-        });
+            source: function (request, response) {
+                $.get('api/city/' + request.term + '?formatted=true', function (data) {
+                    var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 
-        $cityInput.focus(function () {
-            $(this).catcomplete('search');
-        });
+                    response($.grep(data, function(value) {
+                        value = value.label || value.value || value;
 
-        var timeout = null;
-
-        $cityInput.on('keyup', function () {
-            var $this = $(this);
-            if (timeout) {
-                clearTimeout(timeout);
-            }
-
-            timeout = setTimeout(function () {
-                $.get('api/city/' + $this.val() + '?formatted=true', function (data) {
-                    $('#city').catcomplete('option', 'source', function (request, response) {
-                        var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-                        response($.grep(data, function(value) {
-                            value = value.label || value.value || value;
-                            return matcher.test(value) || matcher.test(normalize(value));
-                        }));
-                    }).catcomplete('search')
+                        return matcher.test(value) || matcher.test(normalize(value));
+                    }));
                 });
-            }, 500);
+            }
         });
     })()
 </script>
