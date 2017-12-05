@@ -65,12 +65,12 @@ class ApiController extends Controller
 		 * and others
 		 */
 		if (request('formatted')) {
-			return $cities->map(function ($cities) {
+			return $cities->map(function ($city) {
 				return [
-					'label'    => sprintf('%s (%s)', $cities->name, $cities->cp ?? $cities->code),
-					'value'    => sprintf('%s (%s)', $cities->name, $cities->cp ?? $cities->code),
-					'category' => ($cities->department) ? $cities->department->name . ' (' . $cities->department->code . ')' : 'Département',
-					'data'     => $cities,
+					'label'    => sprintf('%s (%s)', $city->name, $city->cp ?? $city->code),
+					'value'    => sprintf('%s (%s)', $city->name, $city->cp ?? $city->code),
+					'category' => ($city->department) ? sprintf('%s (%s)', $city->department->name, $city->department->code) : 'Département',
+					'data'     => $city,
 				];
 			});
 		}
