@@ -54,6 +54,12 @@ class ApiController extends Controller
 			})->values();
 		}
 
+		if (request('department')) {
+			$cities = $cities->filter(function ($el) {
+				return $el->department->code === request('department');
+			})->values();
+		}
+
 		/*
 		 * Format output to fit jQuery UI Autocomplete
 		 * and others

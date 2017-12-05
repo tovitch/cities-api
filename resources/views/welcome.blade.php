@@ -10,7 +10,18 @@
 </head>
 <body>
 
-<input id="city" type="text" placeholder="Ville">
+<label for="ville">
+    <input id="city" name="ville" type="text" placeholder="Ville">
+</label>
+<label for="departement">
+    <select id="department" name="departement">
+        <option value="27">27</option>
+        <option value="95">95</option>
+        <option value="93">93</option>
+        <option value="92">92</option>
+        <option value="78">78</option>
+    </select>
+</label>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -68,11 +79,12 @@
         });
 
         var $cityInput = $('#city');
+        var $deptInput = $('#department');
 
         $cityInput.catcomplete({
             minLength: 2,
             source: function (request, response) {
-                $.get('api/city/' + request.term + '?formatted=true', function (data) {
+                $.get('api/city/' + request.term + '?formatted=true&department=' + $deptInput.val(), function (data) {
                     var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 
                     response($.grep(data, function(value) {
