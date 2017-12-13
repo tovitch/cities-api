@@ -11,7 +11,7 @@
 <body>
 
 <label for="ville">
-    <input id="city" name="ville" type="text" placeholder="Ville">
+    <input id="city" name="ville" type="text" placeholder="Ville" autofocus>
 </label>
 <label for="departement">
     <select id="department" name="departement">
@@ -84,7 +84,7 @@
         $cityInput.catcomplete({
             minLength: 2,
             source: function (request, response) {
-                $.get('api/city/' + request.term + '?formatted=true&department=' + $deptInput.val(), function (data) {
+                $.get('api/city/' + request.term + '?formatted=true&cp_separator=;&department=' + $deptInput.val(), function (data) {
                     var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 
                     response($.grep(data, function(value) {

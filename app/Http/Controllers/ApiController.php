@@ -65,10 +65,12 @@ class ApiController extends Controller
 		 * and others
 		 */
 		if (request('formatted')) {
-			return $cities->map(function ($cities) {
+			$separator = request('cp_separator') ?? '/';
+
+			return $cities->map(function ($cities) use ($separator) {
 				return [
-					'label'    => sprintf('%s (%s)', $cities->name, $cities->cp ?? $cities->code),
-					'value'    => sprintf('%s (%s)', $cities->name, $cities->cp ?? $cities->code),
+					'label'    => sprintf('%s (%s)', $cities->name, str_replace(':', $separator, $cities->cp) ?? $cities->code),
+					'value'    => sprintf('%s (%s)', $cities->name, str_replace(':', $separator, $cities->cp) ?? $cities->code),
 					'category' => ($cities->department) ? $cities->department->name . ' (' . $cities->department->code . ')' : 'Département',
 					'data'     => $cities,
 				];
