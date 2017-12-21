@@ -56,7 +56,7 @@ class ApiController extends Controller
 
 		if (request('department')) {
 			$cities = $cities->filter(function ($el) {
-				return $el->department->code === request('department');
+				return $el->type === 'city' && $el->department->code === request('department');
 			})->values();
 		}
 
