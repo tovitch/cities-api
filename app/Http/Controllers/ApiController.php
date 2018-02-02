@@ -61,18 +61,19 @@ class ApiController extends Controller
 		}
 
 		/*
-		 * Format output to fit jQuery UI Autocomplete
-		 * and others
+		 * Format output to fit jQuery
+		 * UI Autocomplete and others
 		 */
 		if (request('formatted')) {
 			$separator = request('cp_separator') ?? '/';
 
-			return $cities->map(function ($cities) use ($separator) {
+			return $cities->map(function ($city) use ($separator) {
+				$cp = str_replace(':', $separator, $city->cp);
 				return [
-					'label'    => sprintf('%s (%s)', $cities->name, str_replace(':', $separator, $cities->cp) ?? $cities->code),
-					'value'    => sprintf('%s (%s)', $cities->name, str_replace(':', $separator, $cities->cp) ?? $cities->code),
-					'category' => ($cities->department) ? $cities->department->name . ' (' . $cities->department->code . ')' : 'Département',
-					'data'     => $cities,
+					'label'    => sprintf('%s (%s)', $city->name, $city->code ?? $cp),
+					'value'    => sprintf('%s (%s)', $city->name, $city->code ?? $cp),
+					'category' => ($city->type === 'city') ? $city->department->name . ' (' . $city->department->code . ')' : 'Département',
+					'data'     => $city,
 				];
 			});
 		}

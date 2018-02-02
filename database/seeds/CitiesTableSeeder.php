@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 class CitiesTableSeeder extends Seeder
 {
 	protected $depts = [
-		'95', '93', '94', '02', '78', '77', '60', '27',
+	  '02', '27', '60', '77', '78', '91', '92', '93', '94', '95',
 	];
 
 	/**
